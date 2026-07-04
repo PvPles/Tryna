@@ -1,4 +1,4 @@
-const CACHE = 'neon-orbit-v1';
+const CACHE = 'neon-orbit-v2';
 const ASSETS = ['.', 'index.html', 'game.js', 'manifest.webmanifest', 'icon.svg'];
 
 self.addEventListener('install', (e) => {
