@@ -1,47 +1,40 @@
-# 🌀 Neon Orbit: Rekindle
+# ☀️ REKINDLE
 
-A complete one-thumb arcade game for mobile browsers, with real progression and an ending. No installs, no dependencies, no build step — open `index.html` and play.
+*The suns have gone cold. You are Ash-7, the last keeper-drone still holding an orbit. Gather light. Wake the machines. Reignite the system — then rest.*
 
-**The premise:** the five suns of the Auriga system have gone cold. You are the last Lightkeeper. Every spark you catch banks light toward reigniting the current sun — fill the meter mid-run and the core reignites live, unlocking the next sector. Reignite all five and you've beaten the game (then New Dawn prestige mode begins).
+A narrative incremental game with an arcade heart, built for mobile browsers. No installs, no dependencies, no build step, no ads, no purchases, no tracking. A complete game with a beginning, a middle, and an ending.
 
-## How to play
+## The game
 
-- **Hold** anywhere to dive toward the core (you orbit faster down low, and low flying earns bonus score).
-- **Release** to drift back out.
-- **Double-tap** to phase dash through danger (once you've bought the Phase Drive upgrade).
-- Catch **gold sparks** ✦ — currency, combo fuel, and sun-light all at once.
-- **Graze** hazards (barely miss them) for bonus sparks.
-- Dodge everything: pink **mines**, red **sweeper lasers**, blue **comets**, expanding **pulse waves**, and purple homing **phantoms**. Every hazard telegraphs before it becomes deadly.
+**REKINDLE** is a story-driven incremental in the tradition of *A Dark Room*:
 
-Desktop: **Space** = hold/dive (double-press to dash), **D** = dash, **Esc** = pause, **M**-adjacent sound toggles are on the title screen.
-
-## What's in the game
-
-- **5 sectors**, each with its own palette, music, and hazard mix: Cinder Reach, Frost Hollow, Storm Cradle, Void Garden, Crown of Ash
-- **Economy & upgrades**: sparks persist between runs and buy 5 upgrade tracks — Hull Plating (shields), Tractor Prism (magnet), Refraction Core (spark value), Phase Drive (dash), Ember Protocol (auto-revive)
-- **4 ships** with different stats: Ember, Wisp, Bulwark, Phoenix
-- **Contracts**: 3 rotating missions with spark rewards
-- **Live ignition events**: fill the sun's meter mid-run for a hazard-clearing shockwave
-- **Win state + prestige**: reignite all five suns, then New Dawn resets the suns with harder hazards and richer sparks
-- **Procedural audio**: ambient pad + pentatonic arpeggio per sector, synth SFX — zero audio files
-- Haptics, particles, screen shake, graze system, combo multipliers, local save with best score
+- **Reach for light.** Tap to gather photons. Buy Gatherer Drones to gather for you. Refine plasma in Furnaces, weave flux on Orbital Looms, wake the Choir of Keepers.
+- **Stoke the sun through six acts** — ASH → EMBER → KINDLED → BURNING → RADIANT → BEACON. The sun on your screen visibly comes back to life, act by act.
+- **A written story** unfolds in the log as you play: milestones, machines coming online, encounters with what's left of the bright years.
+- **Expeditions** travel in real time — send drones to the Drowned Relay, the Bone Orchard, the Silent Choir. They come back with relics and pieces of the story.
+- **Encounters**: choice-driven events that interrupt the vigil. Salvage the derelict or let it pass?
+- **Artifacts**: spend relics on six unique story-objects with powerful permanent effects.
+- **Nova (prestige)**: collapse everything you've built into starseeds — +30% to everything, each, forever. The final act demands it.
+- **The Flight Deck** — the built-in **Neon Orbit** arcade game. Fly patrol sorties *by hand* (hold to dive, release to drift, double-tap to dash); every spark you catch becomes permanent stardust production bonuses in the incremental. Skill feeds the idle game forever.
+- **Away-gain**: the machines keep the vigil while you're gone (50% → 100% with upgrades, capped 8h → 24h with an artifact).
+- **A real ending.** Light the Beacon and the game ends — properly — with your statistics and a freeplay option.
 
 ## Run it
 
 ```bash
-# from the repo root
-python3 -m http.server 8080
-# then open http://localhost:8080 (or from your phone on the same network)
+python3 -m http.server 8080   # from the repo root
 ```
 
-Or deploy free with **GitHub Pages** (repo Settings → Pages → deploy from branch → root). The game is fully static and installable as a PWA — served over HTTPS it works offline and can be added to your home screen.
+Then open `http://localhost:8080` — or deploy free with **GitHub Pages** (Settings → Pages → deploy from branch → root). Served over HTTPS it's an installable PWA: add to home screen, plays offline.
+
+Saves live in your browser (localStorage), with export/import codes under SYSTEM.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `index.html` | Shell page, viewport setup, service-worker registration |
-| `game.js` | The entire game: loop, physics, hazards, economy, screens, audio |
-| `manifest.webmanifest` | PWA manifest (fullscreen, portrait) |
-| `sw.js` | Service worker for offline play |
-| `icon.svg` | App icon |
+| `index.html` | App shell: sun canvas, tabs, arcade overlay |
+| `rekindle.js` | The incremental: content, economy, story, expeditions, nova, ending |
+| `game.js` | Neon Orbit — the full arcade game that powers the Flight Deck |
+| `style.css` | UI styling |
+| `manifest.webmanifest`, `sw.js`, `icon.svg` | PWA installability + offline |

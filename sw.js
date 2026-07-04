@@ -1,5 +1,5 @@
-const CACHE = 'neon-orbit-v2';
-const ASSETS = ['.', 'index.html', 'game.js', 'manifest.webmanifest', 'icon.svg'];
+const CACHE = 'rekindle-v3';
+const ASSETS = ['.', 'index.html', 'game.js', 'rekindle.js', 'style.css', 'manifest.webmanifest', 'icon.svg'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));

@@ -1,7 +1,7 @@
 {
-  "name": "Neon Orbit",
-  "short_name": "NeonOrbit",
-  "description": "A one-thumb neon arcade game. Hold to dive, release to drift. Collect energy, dodge everything.",
+  "name": "REKINDLE",
+  "short_name": "REKINDLE",
+  "description": "The suns have gone cold. Gather light, wake the machines, and reignite a dead system. A narrative incremental with an arcade heart.",
   "start_url": ".",
   "display": "fullscreen",
   "orientation": "portrait",

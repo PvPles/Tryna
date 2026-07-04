@@ -703,10 +703,11 @@ function pressStart(x, y) {
 }
 function pressEnd() { ship.holding = false; }
 
-window.addEventListener('pointerdown', (e) => { e.preventDefault(); pressStart(e.clientX, e.clientY); }, { passive: false });
-window.addEventListener('pointerup', (e) => { e.preventDefault(); pressEnd(); }, { passive: false });
-window.addEventListener('pointercancel', () => pressEnd(), { passive: false });
+window.addEventListener('pointerdown', (e) => { if (window.__arcadeSleeping) return; e.preventDefault(); pressStart(e.clientX, e.clientY); }, { passive: false });
+window.addEventListener('pointerup', (e) => { if (window.__arcadeSleeping) return; e.preventDefault(); pressEnd(); }, { passive: false });
+window.addEventListener('pointercancel', () => { if (window.__arcadeSleeping) return; pressEnd(); }, { passive: false });
 window.addEventListener('keydown', (e) => {
+  if (window.__arcadeSleeping) return;
   if (e.repeat) return;
   if (e.code === 'Space') {
     if (state === ST.PLAY) {
@@ -722,7 +723,7 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'Escape' && state === ST.PLAY) goto_(ST.PAUSE);
   else if (e.code === 'Escape' && state === ST.PAUSE) goto_(ST.PLAY);
 });
-window.addEventListener('keyup', (e) => { if (e.code === 'Space') pressEnd(); });
+window.addEventListener('keyup', (e) => { if (window.__arcadeSleeping) return; if (e.code === 'Space') pressEnd(); });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     lastT = 0; ship.holding = false;
@@ -1504,10 +1505,16 @@ function renderTitle(t) {
     by += 22 * S;
   }
 
+  // exit to station (when embedded in Rekindle)
+  const embedded = typeof window.__exitArcade === 'function';
+  if (embedded) {
+    addBtn(CX - 80 * S, H - 56 * S, 160 * S, 44 * S, '⏏ STATION', () => window.__exitArcade(), { font: 14 });
+  }
+
   // missions panel
   const mh = 30 * S;
   const panelH = mh * 3 + 46 * S;
-  const py = Math.min(by, H - panelH - 12);
+  const py = Math.min(by, H - panelH - (embedded ? 70 * S : 12));
   panel(bx, py, bw, panelH);
   ctx.fillStyle = COL.faint;
   ctx.textAlign = 'left';
@@ -1635,6 +1642,9 @@ function renderPause(t) {
     res_wasIgnitedAtStart = true;
     endRun();
   });
+  if (typeof window.__exitArcade === 'function') {
+    addBtn(CX - bw / 2, H * 0.44 + 130 * S, bw, 44 * S, '⏏ STATION', () => window.__exitArcade(), { font: 14 });
+  }
 }
 
 function renderResults(t) {
@@ -2039,6 +2049,7 @@ function render(t) {
 let lastT = 0;
 function frame(t) {
   requestAnimationFrame(frame);
+  if (window.__arcadeSleeping) { lastT = 0; return; }
   if (!lastT) { lastT = t; return; }
   let dt = (t - lastT) / 1000;
   lastT = t;
@@ -2051,7 +2062,13 @@ function frame(t) {
 resize();
 requestAnimationFrame(frame);
 
-// debug/testing hooks
-window.NEO = { save, persist, goto_: goto_, ST, state: () => state, kill: () => { if (state === ST.PLAY) die(shipX(), shipY()); } };
+// hooks: testing + host-page (Rekindle) integration
+window.NEO = {
+  save, persist, goto_: goto_, ST,
+  state: () => state,
+  kill: () => { if (state === ST.PLAY) die(shipX(), shipY()); },
+  wake: () => { resize(); lastT = 0; goto_(ST.TITLE); },
+  sleep: () => { ship.holding = false; stopMusic(); if (state === ST.PLAY) goto_(ST.PAUSE); },
+};
 
 })();
